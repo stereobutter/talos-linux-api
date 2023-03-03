@@ -12,6 +12,10 @@ license = {text = "MIT"}
 
 
 [tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "betterproto[compiler]>=2.0.0b5",
+]
 
 [build-system]
 requires = ["pdm-pep517>=1.0"]
