@@ -1,6 +1,8 @@
 from invoke import task
 import fsspec
 from pathlib import Path
+import re
+import tomlkit
 
 
 @task
@@ -12,3 +14,18 @@ def download_protos(c):
     destination.mkdir(exist_ok=True)
     source_repo.get(source_repo.ls("api/"), destination.as_posix(), recursive=True)
     source_repo.get("LICENSE", (destination / "LICENSE").as_posix())
+
+
+@task
+def patch_project_name(c):
+    api_version = c["api_version"]
+    with open("pyproject.toml", "r") as file:
+        config = tomlkit.load(file)
+
+    config["project"]["name"] = f"talos-linux-api-{api_version}"
+    config["project"]["description"] = re.sub(
+        "\(.*\)", f"({api_version})", config["project"]["description"]
+    )
+
+    with open("pyproject.toml", "w") as file:
+        tomlkit.dump(config, file)
