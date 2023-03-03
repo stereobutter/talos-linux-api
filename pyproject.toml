@@ -15,6 +15,7 @@ license = {text = "MIT"}
 [tool.pdm.dev-dependencies]
 dev = [
     "betterproto[compiler]>=2.0.0b5",
+    "invoke>=2.0.0",
 ]
 
 [build-system]
