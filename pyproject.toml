@@ -16,6 +16,7 @@ license = {text = "MIT"}
 dev = [
     "betterproto[compiler]>=2.0.0b5",
     "invoke>=2.0.0",
+    "fsspec[github]>=2023.1.0",
 ]
 
 [build-system]
