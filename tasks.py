@@ -29,3 +29,22 @@ def patch_project_name(c):
 
     with open("pyproject.toml", "w") as file:
         tomlkit.dump(config, file)
+
+
+@task
+def clean(c):
+    c.run("rm -rf src")
+
+
+@task
+def compile(c):
+    module_name = c["api_version"].replace(".", "_")
+    out_dir = Path("src/talos_linux_api") / module_name
+    out_dir.mkdir(exist_ok=True, parents=True)
+    c.run(
+        "protoc "
+        f"--python_betterproto_out={out_dir.as_posix()} "
+        "-I protos "
+        "-I protos/vendor "
+        '$(find protos -name "*.proto" -and -not -path "*vendor*")'
+    )
