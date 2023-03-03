@@ -226,6 +226,12 @@ requires_python = ">=3.7"
 summary = "A lil' TOML parser"
 
 [[package]]
+name = "tomlkit"
+version = "0.11.6"
+requires_python = ">=3.6"
+summary = "Style preserving TOML library"
+
+[[package]]
 name = "typed-ast"
 version = "1.5.4"
 requires_python = ">=3.6"
@@ -251,7 +257,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:a197fe60ef7e266839bc282f912244de5f7a954062b02219eb3fd37eb5a85ccc"
+content_hash = "sha256:0398fd81ad4d4457276a4d5d2c38d0384f43792674ff0e2e0d5467352302d8f5"
 
 [metadata.files]
 "betterproto 2.0.0b5" = [
@@ -585,6 +591,10 @@ content_hash = "sha256:a197fe60ef7e266839bc282f912244de5f7a954062b02219eb3fd37eb
 "tomli 2.0.1" = [
     {url = "https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {url = "https://files.pythonhosted.org/packages/c0/3f/d7af728f075fb08564c5949a9c95e44352e23dee646869fa104a3b2060a3/tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+"tomlkit 0.11.6" = [
+    {url = "https://files.pythonhosted.org/packages/2b/df/971fa5db3250bb022105d17f340339370f73d502e65e687a94ca1a4c4b1f/tomlkit-0.11.6-py3-none-any.whl", hash = "sha256:07de26b0d8cfc18f871aec595fda24d95b08fef89d147caa861939f37230bf4b"},
+    {url = "https://files.pythonhosted.org/packages/ff/04/58b4c11430ed4b7b8f1723a5e4f20929d59361e9b17f0872d69681fd8ffd/tomlkit-0.11.6.tar.gz", hash = "sha256:71b952e5721688937fb02cf9d354dbcf0785066149d2855e44531ebdd2b65d73"},
 ]
 "typed-ast 1.5.4" = [
     {url = "https://files.pythonhosted.org/packages/04/93/482d12fd3334b53ec4087e658ab161ab23affcf8b052166b4cf972ca673b/typed_ast-1.5.4-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:6778e1b2f81dfc7bc58e4b259363b83d2e509a65198e85d5700dfae4c6c8ff1c"},
