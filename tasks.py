@@ -8,6 +8,7 @@ import tomlkit
 @task
 def download_protos(c, username=None, token=None):
     c.run("rm -rf protos")
+    print(f"Downloading proto files for Talos API {c['api_version']} to ./protos")
     source_repo = fsspec.filesystem(
         "github",
         org="siderolabs",
@@ -23,8 +24,9 @@ def download_protos(c, username=None, token=None):
 
 
 @task
-def patch_project_name(c):
+def patch_pyproject_toml(c):
     api_version = c["api_version"]
+    print(f"Patching pyproject.toml with API version tag {api_version}")
     with open("pyproject.toml", "r") as file:
         config = tomlkit.load(file)
 
@@ -42,10 +44,11 @@ def clean(c):
     c.run("rm -rf src")
 
 
-@task
+@task(clean)
 def compile(c):
     module_name = c["api_version"].replace(".", "_")
     out_dir = Path("src/talos_linux_api") / module_name
+    print(f"Compiling to {out_dir}")
     out_dir.mkdir(exist_ok=True, parents=True)
     c.run(
         "protoc "
@@ -54,3 +57,8 @@ def compile(c):
         "-I protos/vendor "
         '$(find protos -name "*.proto" -and -not -path "*vendor*")'
     )
+
+
+@task(compile, patch_pyproject_toml)
+def build(c):
+    c.run("pytest")
