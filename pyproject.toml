@@ -5,7 +5,9 @@ description = "Python bindings for the Talos Linux gRPC API ()"
 authors = [
     {name = "Sascha Desch", email = "sascha.desch@hotmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "betterproto>=2.0.0b5",
+]
 requires-python = ">=3.7"
 readme = "README.md"
 license = {text = "MIT"}
