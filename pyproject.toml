@@ -1,0 +1,33 @@
+[project]
+name = "talos-linux-api"
+version = "0.1.0"
+description = "Python bindings for the Talos Linux gRPC API ()"
+authors = [
+    {name = "Sascha Desch", email = "sascha.desch@hotmail.com"},
+]
+dependencies = [
+    "betterproto>=2.0.0b5",
+]
+requires-python = ">=3.7"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "betterproto[compiler]>=2.0.0b5",
+    "invoke>=2.0.0",
+    "fsspec[github]>=2023.1.0",
+    "tomlkit>=0.11.6",
+    "setuptools>=67.4.0",
+    "pytest>=7.2.1",
+]
+
+[tool.pdm.build]
+package-dir = "src"
+includes=["src/talos_linux_api"]
+
+[build-system]
+requires = ["pdm-pep517>=1.0"]
+build-backend = "pdm.pep517.api"
