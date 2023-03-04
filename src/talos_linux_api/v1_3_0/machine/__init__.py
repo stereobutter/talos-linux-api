@@ -1116,6 +1116,21 @@ class EtcdRemoveMemberResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class EtcdRemoveMemberByIdRequest(betterproto.Message):
+    member_id: int = betterproto.uint64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class EtcdRemoveMemberById(betterproto.Message):
+    metadata: "_common__.Metadata" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class EtcdRemoveMemberByIdResponse(betterproto.Message):
+    messages: List["EtcdRemoveMemberById"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class EtcdForfeitLeadershipRequest(betterproto.Message):
     pass
 
@@ -1510,6 +1525,22 @@ class MachineServiceStub(betterproto.ServiceStub):
             "/machine.MachineService/EtcdRemoveMember",
             etcd_remove_member_request,
             EtcdRemoveMemberResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
+
+    async def etcd_remove_member_by_id(
+        self,
+        *,
+        timeout: Optional[float] = None,
+        deadline: Optional["Deadline"] = None,
+        metadata: Optional["MetadataLike"] = None
+    ) -> "EtcdRemoveMemberByIdResponse":
+        return await self._unary_unary(
+            "/machine.MachineService/EtcdRemoveMemberByID",
+            etcd_remove_member_by_id_request,
+            EtcdRemoveMemberByIdResponse,
             timeout=timeout,
             deadline=deadline,
             metadata=metadata,
@@ -2104,6 +2135,9 @@ class MachineServiceBase(ServiceBase):
     ) -> "EtcdRemoveMemberResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
+    async def etcd_remove_member_by_id(self) -> "EtcdRemoveMemberByIdResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
     async def etcd_leave_cluster(
         self, etcd_leave_cluster_request: "EtcdLeaveClusterRequest"
     ) -> "EtcdLeaveClusterResponse":
@@ -2336,6 +2370,14 @@ class MachineServiceBase(ServiceBase):
     ) -> None:
         request = await stream.recv_message()
         response = await self.etcd_remove_member(request)
+        await stream.send_message(response)
+
+    async def __rpc_etcd_remove_member_by_id(
+        self,
+        stream: "grpclib.server.Stream[EtcdRemoveMemberByIdRequest, EtcdRemoveMemberByIdResponse]",
+    ) -> None:
+        request = await stream.recv_message()
+        response = await self.etcd_remove_member_by_id(request)
         await stream.send_message(response)
 
     async def __rpc_etcd_leave_cluster(
@@ -2652,6 +2694,12 @@ class MachineServiceBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 EtcdRemoveMemberRequest,
                 EtcdRemoveMemberResponse,
+            ),
+            "/machine.MachineService/EtcdRemoveMemberByID": grpclib.const.Handler(
+                self.__rpc_etcd_remove_member_by_id,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                EtcdRemoveMemberByIdRequest,
+                EtcdRemoveMemberByIdResponse,
             ),
             "/machine.MachineService/EtcdLeaveCluster": grpclib.const.Handler(
                 self.__rpc_etcd_leave_cluster,
