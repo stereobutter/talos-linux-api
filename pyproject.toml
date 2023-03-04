@@ -1,7 +1,7 @@
 [project]
-name = "talos-linux-api"
+name = "talos-linux-api-v1.2.0"
 version = "0.1.0"
-description = "Python bindings for the Talos Linux gRPC API ()"
+description = "Python bindings for the Talos Linux gRPC API (v1.2.0)"
 authors = [
     {name = "Sascha Desch", email = "sascha.desch@hotmail.com"},
 ]
@@ -12,6 +12,8 @@ requires-python = ">=3.7"
 readme = "README.md"
 license = {text = "MIT"}
 
+[project.urls]
+Repository = "https://github.com/stereobutter/talos-linux-api"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
