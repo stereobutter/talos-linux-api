@@ -50,6 +50,9 @@ class Metadata(betterproto.Message):
     labels: Dict[str, str] = betterproto.map_field(
         10, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
+    annotations: Dict[str, str] = betterproto.map_field(
+        11, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
 
 
 @dataclass(eq=False, repr=False)

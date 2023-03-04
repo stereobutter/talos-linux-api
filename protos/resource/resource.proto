@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package resource;
 
-option go_package = "github.com/talos-systems/talos/pkg/machinery/api/resource";
+option go_package = "github.com/siderolabs/talos/pkg/machinery/api/resource";
 
 import "common/common.proto";
 import "google/protobuf/timestamp.proto";
@@ -36,6 +36,7 @@ message Metadata {
   google.protobuf.Timestamp updated = 9;
   repeated string finalizers = 6;
   map<string, string> labels = 10;
+  map<string, string> annotations = 11;
 }
 
 message Spec {
