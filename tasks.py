@@ -7,6 +7,7 @@ import tomlkit
 
 @task
 def download_protos(c):
+    c.run("rm -rf protos")
     source_repo = fsspec.filesystem(
         "github", org="siderolabs", repo="talos", sha=c["api_version"]
     )
