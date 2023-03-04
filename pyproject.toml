@@ -22,6 +22,10 @@ dev = [
     "pytest>=7.2.1",
 ]
 
+[tool.pdm.build]
+package-dir = "src"
+includes=["src/talos_linux_api"]
+
 [build-system]
 requires = ["pdm-pep517>=1.0"]
 build-backend = "pdm.pep517.api"
