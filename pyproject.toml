@@ -12,6 +12,8 @@ requires-python = ">=3.7"
 readme = "README.md"
 license = {text = "MIT"}
 
+[project.urls]
+Repository = "https://github.com/stereobutter/talos-linux-api"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
