@@ -6,10 +6,15 @@ import tomlkit
 
 
 @task
-def download_protos(c):
+def download_protos(c, username=None, token=None):
     c.run("rm -rf protos")
     source_repo = fsspec.filesystem(
-        "github", org="siderolabs", repo="talos", sha=c["api_version"]
+        "github",
+        org="siderolabs",
+        repo="talos",
+        sha=c["api_version"],
+        username=username,
+        token=token,
     )
     destination = Path("./protos")
     destination.mkdir(exist_ok=True)
