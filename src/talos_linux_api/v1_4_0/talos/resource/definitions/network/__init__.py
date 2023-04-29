@@ -119,7 +119,7 @@ class HardwareAddrSpec(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class HostnameSpecSpec(betterproto.Message):
-    """HostnameSpecSpec describes node nostname."""
+    """HostnameSpecSpec describes node hostname."""
 
     hostname: str = betterproto.string_field(1)
     domainname: str = betterproto.string_field(2)
@@ -128,7 +128,7 @@ class HostnameSpecSpec(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class HostnameStatusSpec(betterproto.Message):
-    """HostnameStatusSpec describes node nostname."""
+    """HostnameStatusSpec describes node hostname."""
 
     hostname: str = betterproto.string_field(1)
     domainname: str = betterproto.string_field(2)
@@ -228,6 +228,24 @@ class OperatorSpecSpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class ProbeSpecSpec(betterproto.Message):
+    """ProbeSpecSpec describes the Probe."""
+
+    interval: timedelta = betterproto.message_field(1)
+    failure_threshold: int = betterproto.int64_field(2)
+    tcp: "TcpProbeSpec" = betterproto.message_field(3)
+    config_layer: "_enums__.NetworkConfigLayer" = betterproto.enum_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class ProbeStatusSpec(betterproto.Message):
+    """ProbeStatusSpec describes the Probe."""
+
+    success: bool = betterproto.bool_field(1)
+    last_error: str = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class ResolverSpecSpec(betterproto.Message):
     """ResolverSpecSpec describes DNS resolvers."""
 
@@ -295,6 +313,14 @@ class StatusSpec(betterproto.Message):
     connectivity_ready: bool = betterproto.bool_field(2)
     hostname_ready: bool = betterproto.bool_field(3)
     etc_files_ready: bool = betterproto.bool_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class TcpProbeSpec(betterproto.Message):
+    """TCPProbeSpec describes the TCP Probe."""
+
+    endpoint: str = betterproto.string_field(1)
+    timeout: timedelta = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)

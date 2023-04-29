@@ -37,50 +37,22 @@ class MachineType(betterproto.Enum):
     """
 
 
-class KubespanPeerState(betterproto.Enum):
-    """KubespanPeerState is KubeSpan peer current state."""
+class NethelpersAddressFlag(betterproto.Enum):
+    """NethelpersAddressFlag wraps IFF_* constants."""
 
-    PEER_STATE_UNKNOWN = 0
-    PEER_STATE_UP = 1
-    PEER_STATE_DOWN = 2
-
-
-class NetworkConfigLayer(betterproto.Enum):
-    """
-    NetworkConfigLayer describes network configuration layers, with lowest
-    priority first.
-    """
-
-    CONFIG_DEFAULT = 0
-    CONFIG_CMDLINE = 1
-    CONFIG_PLATFORM = 2
-    CONFIG_OPERATOR = 3
-    CONFIG_MACHINE_CONFIGURATION = 4
-
-
-class NetworkOperator(betterproto.Enum):
-    """NetworkOperator enumerates Talos network operators."""
-
-    OPERATOR_DHCP_4 = 0
-    OPERATOR_DHCP_6 = 1
-    OPERATOR_VIP = 2
-
-
-class NethelpersFamily(betterproto.Enum):
-    """NethelpersFamily is a network family."""
-
-    FAMILY_INET_4 = 0
-    FAMILY_INET_6 = 1
-
-
-class NethelpersScope(betterproto.Enum):
-    """NethelpersScope is an address scope."""
-
-    SCOPE_GLOBAL = 0
-    SCOPE_SITE = 200
-    SCOPE_LINK = 253
-    SCOPE_HOST = 254
-    SCOPE_NOWHERE = 255
+    NETHELPERS_ADDRESSFLAG_UNSPECIFIED = 0
+    ADDRESS_TEMPORARY = 1
+    ADDRESS_NO_DAD = 2
+    ADDRESS_OPTIMISTIC = 4
+    ADDRESS_DAD_FAILED = 8
+    ADDRESS_HOME = 16
+    ADDRESS_DEPRECATED = 32
+    ADDRESS_TENTATIVE = 64
+    ADDRESS_PERMANENT = 128
+    ADDRESS_MANAGEMENT_TEMP = 256
+    ADDRESS_NO_PREFIX_ROUTE = 512
+    ADDRESS_MC_AUTO_JOIN = 1024
+    ADDRESS_STABLE_PRIVACY = 2048
 
 
 class NethelpersAdSelect(betterproto.Enum):
@@ -107,40 +79,6 @@ class NethelpersArpValidate(betterproto.Enum):
     ARP_VALIDATE_ALL = 3
 
 
-class NethelpersFailOverMac(betterproto.Enum):
-    """NethelpersFailOverMAC is a MAC failover mode."""
-
-    FAIL_OVER_MAC_NONE = 0
-    FAIL_OVER_MAC_ACTIVE = 1
-    FAIL_OVER_MAC_FOLLOW = 2
-
-
-class NethelpersBondXmitHashPolicy(betterproto.Enum):
-    """NethelpersBondXmitHashPolicy is a bond hash policy."""
-
-    BOND_XMIT_POLICY_LAYER2 = 0
-    """layer2"""
-
-    BOND_XMIT_POLICY_LAYER34 = 1
-    """layer3+4"""
-
-    BOND_XMIT_POLICY_LAYER23 = 2
-    """layer2+3"""
-
-    BOND_XMIT_POLICY_ENCAP23 = 3
-    """encap2+3"""
-
-    BOND_XMIT_POLICY_ENCAP34 = 4
-    """encap3+4"""
-
-
-class NethelpersLacpRate(betterproto.Enum):
-    """NethelpersLACPRate is a LACP rate."""
-
-    LACP_RATE_SLOW = 0
-    LACP_RATE_FAST = 1
-
-
 class NethelpersBondMode(betterproto.Enum):
     """NethelpersBondMode is a bond mode."""
 
@@ -153,12 +91,45 @@ class NethelpersBondMode(betterproto.Enum):
     BOND_MODE_ALB = 6
 
 
-class NethelpersPrimaryReselect(betterproto.Enum):
-    """NethelpersPrimaryReselect is an ARP targets mode."""
+class NethelpersBondXmitHashPolicy(betterproto.Enum):
+    """NethelpersBondXmitHashPolicy is a bond hash policy."""
 
-    PRIMARY_RESELECT_ALWAYS = 0
-    PRIMARY_RESELECT_BETTER = 1
-    PRIMARY_RESELECT_FAILURE = 2
+    BOND_XMIT_POLICY_LAYER2 = 0
+    BOND_XMIT_POLICY_LAYER34 = 1
+    BOND_XMIT_POLICY_LAYER23 = 2
+    BOND_XMIT_POLICY_ENCAP23 = 3
+    BOND_XMIT_POLICY_ENCAP34 = 4
+
+
+class NethelpersDuplex(betterproto.Enum):
+    """NethelpersDuplex wraps ethtool.Duplex for YAML marshaling."""
+
+    HALF = 0
+    FULL = 1
+    UNKNOWN = 255
+
+
+class NethelpersFailOverMac(betterproto.Enum):
+    """NethelpersFailOverMAC is a MAC failover mode."""
+
+    FAIL_OVER_MAC_NONE = 0
+    FAIL_OVER_MAC_ACTIVE = 1
+    FAIL_OVER_MAC_FOLLOW = 2
+
+
+class NethelpersFamily(betterproto.Enum):
+    """NethelpersFamily is a network family."""
+
+    NETHELPERS_FAMILY_UNSPECIFIED = 0
+    FAMILY_INET4 = 2
+    FAMILY_INET6 = 10
+
+
+class NethelpersLacpRate(betterproto.Enum):
+    """NethelpersLACPRate is a LACP rate."""
+
+    LACP_RATE_SLOW = 0
+    LACP_RATE_FAST = 1
 
 
 class NethelpersLinkType(betterproto.Enum):
@@ -190,7 +161,8 @@ class NethelpersLinkType(betterproto.Enum):
     LINK_HWX25 = 272
     LINK_CAN = 280
     LINK_PPP = 512
-    LINK_CISCO_HDLC = 513
+    LINK_CISCO = 513
+    LINK_HDLC = 513
     LINK_LAPB = 516
     LINK_DDCMP = 517
     LINK_RAWHDLC = 518
@@ -226,28 +198,20 @@ class NethelpersLinkType(betterproto.Enum):
     LINK_FCFABRIC10 = 797
     LINK_FCFABRIC11 = 798
     LINK_FCFABRIC12 = 799
-    LINK_IEE802_TR = 800
+    LINK_IEE802TR = 800
     LINK_IEE80211 = 801
-    LINK_IEE80211_PRISM = 802
+    LINK_IEE80211PRISM = 802
     LINK_IEE80211_RADIOTAP = 803
     LINK_IEE8021154 = 804
-    LINK_IEE8021154_MONITOR = 805
+    LINK_IEE8021154MONITOR = 805
     LINK_PHONET = 820
     LINK_PHONETPIPE = 821
     LINK_CAIF = 822
-    LINK_IP6_GRE = 823
+    LINK_IP6GRE = 823
     LINK_NETLINK = 824
     LINK6_LOWPAN = 825
     LINK_VOID = 65535
     LINK_NONE = 65534
-
-
-class NethelpersDuplex(betterproto.Enum):
-    """NethelpersDuplex wraps ethtool.Duplex for YAML marshaling."""
-
-    HALF = 0
-    FULL = 1
-    UNKNOWN = 255
 
 
 class NethelpersOperationalState(betterproto.Enum):
@@ -278,6 +242,28 @@ class NethelpersPort(betterproto.Enum):
     OTHER = 255
 
 
+class NethelpersPrimaryReselect(betterproto.Enum):
+    """NethelpersPrimaryReselect is an ARP targets mode."""
+
+    PRIMARY_RESELECT_ALWAYS = 0
+    PRIMARY_RESELECT_BETTER = 1
+    PRIMARY_RESELECT_FAILURE = 2
+
+
+class NethelpersRouteFlag(betterproto.Enum):
+    """NethelpersRouteFlag wraps RTM_F_* constants."""
+
+    NETHELPERS_ROUTEFLAG_UNSPECIFIED = 0
+    ROUTE_NOTIFY = 256
+    ROUTE_CLONED = 512
+    ROUTE_EQUALIZE = 1024
+    ROUTE_PREFIX = 2048
+    ROUTE_LOOKUP_TABLE = 4096
+    ROUTE_FIB_MATCH = 8192
+    ROUTE_OFFLOAD = 16384
+    ROUTE_TRAP = 32768
+
+
 class NethelpersRouteProtocol(betterproto.Enum):
     """NethelpersRouteProtocol is a routing protocol."""
 
@@ -305,15 +291,6 @@ class NethelpersRouteProtocol(betterproto.Enum):
     PROTOCOL_EIGRP = 192
 
 
-class NethelpersRoutingTable(betterproto.Enum):
-    """NethelpersRoutingTable is a routing table ID."""
-
-    TABLE_UNSPEC = 0
-    TABLE_DEFAULT = 253
-    TABLE_MAIN = 254
-    TABLE_LOCAL = 255
-
-
 class NethelpersRouteType(betterproto.Enum):
     """NethelpersRouteType is a route type."""
 
@@ -331,11 +308,60 @@ class NethelpersRouteType(betterproto.Enum):
     TYPE_X_RESOLVE = 11
 
 
+class NethelpersRoutingTable(betterproto.Enum):
+    """NethelpersRoutingTable is a routing table ID."""
+
+    TABLE_UNSPEC = 0
+    TABLE_DEFAULT = 253
+    TABLE_MAIN = 254
+    TABLE_LOCAL = 255
+
+
+class NethelpersScope(betterproto.Enum):
+    """NethelpersScope is an address scope."""
+
+    SCOPE_GLOBAL = 0
+    SCOPE_SITE = 200
+    SCOPE_LINK = 253
+    SCOPE_HOST = 254
+    SCOPE_NOWHERE = 255
+
+
 class NethelpersVlanProtocol(betterproto.Enum):
     """NethelpersVLANProtocol is a VLAN protocol."""
 
-    VLAN_PROTOCOL8021_Q = 0
-    VLAN_PROTOCOL8021_AD = 1
+    NETHELPERS_VLANPROTOCOL_UNSPECIFIED = 0
+    VLAN_PROTOCOL8021_Q = 33024
+    VLAN_PROTOCOL8021_AD = 34984
+
+
+class KubespanPeerState(betterproto.Enum):
+    """KubespanPeerState is KubeSpan peer current state."""
+
+    PEER_STATE_UNKNOWN = 0
+    PEER_STATE_UP = 1
+    PEER_STATE_DOWN = 2
+
+
+class NetworkConfigLayer(betterproto.Enum):
+    """
+    NetworkConfigLayer describes network configuration layers, with lowest
+    priority first.
+    """
+
+    CONFIG_DEFAULT = 0
+    CONFIG_CMDLINE = 1
+    CONFIG_PLATFORM = 2
+    CONFIG_OPERATOR = 3
+    CONFIG_MACHINE_CONFIGURATION = 4
+
+
+class NetworkOperator(betterproto.Enum):
+    """NetworkOperator enumerates Talos network operators."""
+
+    OPERATOR_DHCP4 = 0
+    OPERATOR_DHCP6 = 1
+    OPERATOR_VIP = 2
 
 
 class RuntimeMachineStage(betterproto.Enum):
