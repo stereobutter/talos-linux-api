@@ -51,6 +51,13 @@ class MachineStatusStatus(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class MetaKeySpec(betterproto.Message):
+    """MetaKeySpec describes status of the defined sysctls."""
+
+    value: str = betterproto.string_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class MountStatusSpec(betterproto.Message):
     """MountStatusSpec describes status of the defined sysctls."""
 

@@ -48,6 +48,14 @@ class IdentitySpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class InfoSpec(betterproto.Message):
+    """InfoSpec describes cluster information."""
+
+    cluster_id: str = betterproto.string_field(1)
+    cluster_name: str = betterproto.string_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class KubeSpanAffiliateSpec(betterproto.Message):
     """
     KubeSpanAffiliateSpec describes additional information specific for the

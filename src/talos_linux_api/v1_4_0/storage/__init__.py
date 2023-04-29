@@ -64,6 +64,12 @@ class Disk(betterproto.Message):
     bus_path: str = betterproto.string_field(10)
     """BusPath is the bus path of the disk."""
 
+    system_disk: bool = betterproto.bool_field(11)
+    """SystemDisk indicates that the disk is used as Talos system disk."""
+
+    subsystem: str = betterproto.string_field(12)
+    """Subsystem is the symlink path in the `/sys/block/<dev>/subsystem`."""
+
 
 @dataclass(eq=False, repr=False)
 class Disks(betterproto.Message):
