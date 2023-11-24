@@ -27,3 +27,19 @@ async with Channel(host="example.com", port=50000, ssl=ssl_context) as channel:
     machine_service = MachineServiceStub(channel)
     response = await machine_service.cpu_info(Empty())
 ```
+
+> [!NOTE]
+> `openssl` which the `ssl` module relies upon does not like the format of the
+> private key that `talosctl` generates.
+> ```
+> -----BEGIN ED25519 PRIVATE KEY-----
+>               ...
+> -----END ED25519 PRIVATE KEY-----
+> ```
+> To make `openssl` happy you have to fix the header and footer by removing the
+> `ED25519` part.
+> ```
+> -----BEGIN PRIVATE KEY-----
+>               ...
+> -----END PRIVATE KEY-----
+> ```
