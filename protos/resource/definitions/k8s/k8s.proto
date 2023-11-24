@@ -21,6 +21,7 @@ message APIServerConfigSpec {
   map<string, string> environment_variables = 9;
   bool pod_security_policy_enabled = 10;
   string advertised_address = 11;
+  Resources resources = 12;
 }
 
 // AdmissionControlConfigSpec is configuration for kube-apiserver.
@@ -74,6 +75,7 @@ message ControllerManagerConfigSpec {
   map<string, string> extra_args = 6;
   repeated ExtraVolume extra_volumes = 7;
   map<string, string> environment_variables = 8;
+  Resources resources = 9;
 }
 
 // EndpointSpec describes status of rendered secrets.
@@ -103,6 +105,30 @@ message ExtraVolume {
   bool read_only = 4;
 }
 
+// KubePrismConfigSpec describes KubePrismConfig data.
+message KubePrismConfigSpec {
+  string host = 1;
+  int64 port = 2;
+  repeated KubePrismEndpoint endpoints = 3;
+}
+
+// KubePrismEndpoint holds data for control plane endpoint.
+message KubePrismEndpoint {
+  string host = 1;
+  uint32 port = 2;
+}
+
+// KubePrismEndpointsSpec describes KubePrismEndpoints configuration.
+message KubePrismEndpointsSpec {
+  repeated KubePrismEndpoint endpoints = 1;
+}
+
+// KubePrismStatusesSpec describes KubePrismStatuses data.
+message KubePrismStatusesSpec {
+  string host = 1;
+  bool healthy = 2;
+}
+
 // KubeletConfigSpec holds the source of kubelet configuration.
 message KubeletConfigSpec {
   string image = 1;
@@ -116,6 +142,7 @@ message KubeletConfigSpec {
   bool skip_node_registration = 9;
   string static_pod_list_url = 10;
   bool disable_manifests_directory = 11;
+  bool enable_fs_quota_monitoring = 12;
 }
 
 // KubeletSpecSpec holds the source of kubelet configuration.
@@ -154,10 +181,33 @@ message NodeLabelSpecSpec {
   string value = 2;
 }
 
+// NodeStatusSpec describes Kubernetes NodeStatus.
+message NodeStatusSpec {
+  string nodename = 1;
+  bool node_ready = 2;
+  bool unschedulable = 3;
+  map<string, string> labels = 4;
+  map<string, string> annotations = 5;
+}
+
+// NodeTaintSpecSpec represents a label that's attached to a Talos node.
+message NodeTaintSpecSpec {
+  string key = 1;
+  string effect = 2;
+  string value = 3;
+}
+
 // NodenameSpec describes Kubernetes nodename.
 message NodenameSpec {
   string nodename = 1;
   string hostname_version = 2;
+  bool skip_node_registration = 3;
+}
+
+// Resources is a configuration of cpu and memory resources.
+message Resources {
+  map<string, string> requests = 1;
+  map<string, string> limits = 2;
 }
 
 // SchedulerConfigSpec is configuration for kube-scheduler.
@@ -167,6 +217,7 @@ message SchedulerConfigSpec {
   map<string, string> extra_args = 3;
   repeated ExtraVolume extra_volumes = 4;
   map<string, string> environment_variables = 5;
+  Resources resources = 6;
 }
 
 // SecretsStatusSpec describes status of rendered secrets.

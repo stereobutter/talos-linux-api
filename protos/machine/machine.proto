@@ -105,6 +105,10 @@ service MachineService {
   rpc MetaWrite(MetaWriteRequest) returns (MetaWriteResponse);
   // MetaDelete deletes a META key.
   rpc MetaDelete(MetaDeleteRequest) returns (MetaDeleteResponse);
+  // ImageList lists images in the CRI.
+  rpc ImageList(ImageListRequest) returns (stream ImageListResponse);
+  // ImagePull pulls an image into the CRI.
+  rpc ImagePull(ImagePullRequest) returns (ImagePullResponse);
 }
 
 // rpc applyConfiguration
@@ -339,10 +343,15 @@ message ShutdownResponse {
 
 // rpc upgrade
 message UpgradeRequest {
+  enum RebootMode {
+    DEFAULT = 0;
+    POWERCYCLE = 1;
+  }
   string image = 1;
   bool preserve = 2;
   bool stage = 3;
   bool force = 4;
+  RebootMode reboot_mode = 5;
 }
 
 message Upgrade {
@@ -1310,4 +1319,32 @@ message MetaDelete {
 
 message MetaDeleteResponse {
   repeated MetaDelete messages = 1;
+}
+
+message ImageListRequest {
+  // Containerd namespace to use.
+  common.ContainerdNamespace namespace = 1;
+}
+
+message ImageListResponse {
+  common.Metadata metadata = 1;
+  string name = 2;
+  string digest = 3;
+  int64 size = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message ImagePullRequest {
+  // Containerd namespace to use.
+  common.ContainerdNamespace namespace = 1;
+  // Image reference to pull.
+  string reference = 2;
+}
+
+message ImagePull {
+  common.Metadata metadata = 1;
+}
+
+message ImagePullResponse {
+  repeated ImagePull messages = 1;
 }
