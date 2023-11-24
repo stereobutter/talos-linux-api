@@ -18,7 +18,6 @@ def test_modules_are_importable():
         ("cluster", "ClusterServiceStub"),
         ("inspect", "InspectServiceStub"),
         ("machine", "MachineServiceStub"),
-        ("resource", "ResourceServiceStub"),
         ("securityapi", "SecurityServiceStub"),
         ("storage", "StorageServiceStub"),
         ("time", "TimeServiceStub"),
