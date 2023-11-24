@@ -21,6 +21,7 @@ class AffiliateSpec(betterproto.Message):
     operating_system: str = betterproto.string_field(5)
     machine_type: "_enums__.MachineType" = betterproto.enum_field(6)
     kube_span: "KubeSpanAffiliateSpec" = betterproto.message_field(7)
+    control_plane: "ControlPlane" = betterproto.message_field(8)
 
 
 @dataclass(eq=False, repr=False)
@@ -34,6 +35,13 @@ class ConfigSpec(betterproto.Message):
     service_endpoint_insecure: bool = betterproto.bool_field(5)
     service_encryption_key: bytes = betterproto.bytes_field(6)
     service_cluster_id: str = betterproto.string_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class ControlPlane(betterproto.Message):
+    """ControlPlane describes ControlPlane data if any."""
+
+    api_server_port: int = betterproto.int64_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -79,3 +87,4 @@ class MemberSpec(betterproto.Message):
     hostname: str = betterproto.string_field(3)
     machine_type: "_enums__.MachineType" = betterproto.enum_field(4)
     operating_system: str = betterproto.string_field(5)
+    control_plane: "ControlPlane" = betterproto.message_field(6)

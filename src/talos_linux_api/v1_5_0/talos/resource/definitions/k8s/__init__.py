@@ -33,6 +33,7 @@ class ApiServerConfigSpec(betterproto.Message):
     )
     pod_security_policy_enabled: bool = betterproto.bool_field(10)
     advertised_address: str = betterproto.string_field(11)
+    resources: "Resources" = betterproto.message_field(12)
 
 
 @dataclass(eq=False, repr=False)
@@ -113,6 +114,7 @@ class ControllerManagerConfigSpec(betterproto.Message):
     environment_variables: Dict[str, str] = betterproto.map_field(
         8, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
+    resources: "Resources" = betterproto.message_field(9)
 
 
 @dataclass(eq=False, repr=False)
@@ -155,6 +157,38 @@ class ExtraVolume(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class KubePrismConfigSpec(betterproto.Message):
+    """KubePrismConfigSpec describes KubePrismConfig data."""
+
+    host: str = betterproto.string_field(1)
+    port: int = betterproto.int64_field(2)
+    endpoints: List["KubePrismEndpoint"] = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class KubePrismEndpoint(betterproto.Message):
+    """KubePrismEndpoint holds data for control plane endpoint."""
+
+    host: str = betterproto.string_field(1)
+    port: int = betterproto.uint32_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class KubePrismEndpointsSpec(betterproto.Message):
+    """KubePrismEndpointsSpec describes KubePrismEndpoints configuration."""
+
+    endpoints: List["KubePrismEndpoint"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class KubePrismStatusesSpec(betterproto.Message):
+    """KubePrismStatusesSpec describes KubePrismStatuses data."""
+
+    host: str = betterproto.string_field(1)
+    healthy: bool = betterproto.bool_field(2)
+
+
+@dataclass(eq=False, repr=False)
 class KubeletConfigSpec(betterproto.Message):
     """KubeletConfigSpec holds the source of kubelet configuration."""
 
@@ -173,6 +207,7 @@ class KubeletConfigSpec(betterproto.Message):
     skip_node_registration: bool = betterproto.bool_field(9)
     static_pod_list_url: str = betterproto.string_field(10)
     disable_manifests_directory: bool = betterproto.bool_field(11)
+    enable_fs_quota_monitoring: bool = betterproto.bool_field(12)
 
 
 @dataclass(eq=False, repr=False)
@@ -226,11 +261,50 @@ class NodeLabelSpecSpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class NodeStatusSpec(betterproto.Message):
+    """NodeStatusSpec describes Kubernetes NodeStatus."""
+
+    nodename: str = betterproto.string_field(1)
+    node_ready: bool = betterproto.bool_field(2)
+    unschedulable: bool = betterproto.bool_field(3)
+    labels: Dict[str, str] = betterproto.map_field(
+        4, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
+    annotations: Dict[str, str] = betterproto.map_field(
+        5, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
+
+
+@dataclass(eq=False, repr=False)
+class NodeTaintSpecSpec(betterproto.Message):
+    """
+    NodeTaintSpecSpec represents a label that's attached to a Talos node.
+    """
+
+    key: str = betterproto.string_field(1)
+    effect: str = betterproto.string_field(2)
+    value: str = betterproto.string_field(3)
+
+
+@dataclass(eq=False, repr=False)
 class NodenameSpec(betterproto.Message):
     """NodenameSpec describes Kubernetes nodename."""
 
     nodename: str = betterproto.string_field(1)
     hostname_version: str = betterproto.string_field(2)
+    skip_node_registration: bool = betterproto.bool_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class Resources(betterproto.Message):
+    """Resources is a configuration of cpu and memory resources."""
+
+    requests: Dict[str, str] = betterproto.map_field(
+        1, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
+    limits: Dict[str, str] = betterproto.map_field(
+        2, betterproto.TYPE_STRING, betterproto.TYPE_STRING
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -246,6 +320,7 @@ class SchedulerConfigSpec(betterproto.Message):
     environment_variables: Dict[str, str] = betterproto.map_field(
         5, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
+    resources: "Resources" = betterproto.message_field(6)
 
 
 @dataclass(eq=False, repr=False)

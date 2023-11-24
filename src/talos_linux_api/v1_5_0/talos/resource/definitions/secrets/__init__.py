@@ -62,6 +62,19 @@ class KubeletSpec(betterproto.Message):
 class KubernetesCertsSpec(betterproto.Message):
     """KubernetesCertsSpec describes generated Kubernetes certificates."""
 
+    scheduler_kubeconfig: str = betterproto.string_field(4)
+    controller_manager_kubeconfig: str = betterproto.string_field(5)
+    localhost_admin_kubeconfig: str = betterproto.string_field(6)
+    admin_kubeconfig: str = betterproto.string_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class KubernetesDynamicCertsSpec(betterproto.Message):
+    """
+    KubernetesDynamicCertsSpec describes generated KubernetesCerts
+    certificates.
+    """
+
     api_server: "____common__.PemEncodedCertificateAndKey" = betterproto.message_field(
         1
     )
@@ -71,10 +84,6 @@ class KubernetesCertsSpec(betterproto.Message):
     front_proxy: "____common__.PemEncodedCertificateAndKey" = betterproto.message_field(
         3
     )
-    scheduler_kubeconfig: str = betterproto.string_field(4)
-    controller_manager_kubeconfig: str = betterproto.string_field(5)
-    localhost_admin_kubeconfig: str = betterproto.string_field(6)
-    admin_kubeconfig: str = betterproto.string_field(7)
 
 
 @dataclass(eq=False, repr=False)
@@ -96,6 +105,23 @@ class KubernetesRootSpec(betterproto.Message):
     bootstrap_token_secret: str = betterproto.string_field(12)
     secretbox_encryption_secret: str = betterproto.string_field(13)
     api_server_ips: List["____common__.NetIp"] = betterproto.message_field(14)
+
+
+@dataclass(eq=False, repr=False)
+class MaintenanceRootSpec(betterproto.Message):
+    """MaintenanceRootSpec describes maintenance service CA."""
+
+    ca: "____common__.PemEncodedCertificateAndKey" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class MaintenanceServiceCertsSpec(betterproto.Message):
+    """
+    MaintenanceServiceCertsSpec describes maintenance service certs secrets.
+    """
+
+    ca: "____common__.PemEncodedCertificateAndKey" = betterproto.message_field(1)
+    server: "____common__.PemEncodedCertificateAndKey" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
