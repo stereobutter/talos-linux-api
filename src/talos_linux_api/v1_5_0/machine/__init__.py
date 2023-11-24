@@ -89,6 +89,11 @@ class ResetRequestWipeMode(betterproto.Enum):
     USER_DISKS = 2
 
 
+class UpgradeRequestRebootMode(betterproto.Enum):
+    DEFAULT = 0
+    POWERCYCLE = 1
+
+
 class ListRequestType(betterproto.Enum):
     """File type."""
 
@@ -409,6 +414,7 @@ class UpgradeRequest(betterproto.Message):
     preserve: bool = betterproto.bool_field(2)
     stage: bool = betterproto.bool_field(3)
     force: bool = betterproto.bool_field(4)
+    reboot_mode: "UpgradeRequestRebootMode" = betterproto.enum_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -1553,6 +1559,40 @@ class MetaDeleteResponse(betterproto.Message):
     messages: List["MetaDelete"] = betterproto.message_field(1)
 
 
+@dataclass(eq=False, repr=False)
+class ImageListRequest(betterproto.Message):
+    namespace: "_common__.ContainerdNamespace" = betterproto.enum_field(1)
+    """Containerd namespace to use."""
+
+
+@dataclass(eq=False, repr=False)
+class ImageListResponse(betterproto.Message):
+    metadata: "_common__.Metadata" = betterproto.message_field(1)
+    name: str = betterproto.string_field(2)
+    digest: str = betterproto.string_field(3)
+    size: int = betterproto.int64_field(4)
+    created_at: datetime = betterproto.message_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class ImagePullRequest(betterproto.Message):
+    namespace: "_common__.ContainerdNamespace" = betterproto.enum_field(1)
+    """Containerd namespace to use."""
+
+    reference: str = betterproto.string_field(2)
+    """Image reference to pull."""
+
+
+@dataclass(eq=False, repr=False)
+class ImagePull(betterproto.Message):
+    metadata: "_common__.Metadata" = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class ImagePullResponse(betterproto.Message):
+    messages: List["ImagePull"] = betterproto.message_field(1)
+
+
 class MachineServiceStub(betterproto.ServiceStub):
     async def apply_configuration(
         self,
@@ -2399,6 +2439,41 @@ class MachineServiceStub(betterproto.ServiceStub):
             metadata=metadata,
         )
 
+    async def image_list(
+        self,
+        image_list_request: "ImageListRequest",
+        *,
+        timeout: Optional[float] = None,
+        deadline: Optional["Deadline"] = None,
+        metadata: Optional["MetadataLike"] = None
+    ) -> AsyncIterator["ImageListResponse"]:
+        async for response in self._unary_stream(
+            "/machine.MachineService/ImageList",
+            image_list_request,
+            ImageListResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        ):
+            yield response
+
+    async def image_pull(
+        self,
+        image_pull_request: "ImagePullRequest",
+        *,
+        timeout: Optional[float] = None,
+        deadline: Optional["Deadline"] = None,
+        metadata: Optional["MetadataLike"] = None
+    ) -> "ImagePullResponse":
+        return await self._unary_unary(
+            "/machine.MachineService/ImagePull",
+            image_pull_request,
+            ImagePullResponse,
+            timeout=timeout,
+            deadline=deadline,
+            metadata=metadata,
+        )
+
 
 class MachineServiceBase(ServiceBase):
     async def apply_configuration(
@@ -2639,6 +2714,16 @@ class MachineServiceBase(ServiceBase):
     async def meta_delete(
         self, meta_delete_request: "MetaDeleteRequest"
     ) -> "MetaDeleteResponse":
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def image_list(
+        self, image_list_request: "ImageListRequest"
+    ) -> AsyncIterator["ImageListResponse"]:
+        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
+
+    async def image_pull(
+        self, image_pull_request: "ImagePullRequest"
+    ) -> "ImagePullResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_apply_configuration(
@@ -3039,6 +3124,23 @@ class MachineServiceBase(ServiceBase):
         response = await self.meta_delete(request)
         await stream.send_message(response)
 
+    async def __rpc_image_list(
+        self, stream: "grpclib.server.Stream[ImageListRequest, ImageListResponse]"
+    ) -> None:
+        request = await stream.recv_message()
+        await self._call_rpc_handler_server_stream(
+            self.image_list,
+            stream,
+            request,
+        )
+
+    async def __rpc_image_pull(
+        self, stream: "grpclib.server.Stream[ImagePullRequest, ImagePullResponse]"
+    ) -> None:
+        request = await stream.recv_message()
+        response = await self.image_pull(request)
+        await stream.send_message(response)
+
     def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
         return {
             "/machine.MachineService/ApplyConfiguration": grpclib.const.Handler(
@@ -3334,5 +3436,17 @@ class MachineServiceBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 MetaDeleteRequest,
                 MetaDeleteResponse,
+            ),
+            "/machine.MachineService/ImageList": grpclib.const.Handler(
+                self.__rpc_image_list,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                ImageListRequest,
+                ImageListResponse,
+            ),
+            "/machine.MachineService/ImagePull": grpclib.const.Handler(
+                self.__rpc_image_pull,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ImagePullRequest,
+                ImagePullResponse,
             ),
         }

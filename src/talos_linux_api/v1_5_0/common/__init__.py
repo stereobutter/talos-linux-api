@@ -22,6 +22,12 @@ class ContainerDriver(betterproto.Enum):
     CRI = 1
 
 
+class ContainerdNamespace(betterproto.Enum):
+    NS_UNKNOWN = 0
+    NS_SYSTEM = 1
+    NS_CRI = 2
+
+
 @dataclass(eq=False, repr=False)
 class Error(betterproto.Message):
     code: "Code" = betterproto.enum_field(1)

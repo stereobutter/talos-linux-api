@@ -6,7 +6,24 @@ from typing import List
 
 import betterproto
 
+from ..... import common as ____common__
 from .. import enums as _enums__
+
+
+@dataclass(eq=False, repr=False)
+class DevicesStatusSpec(betterproto.Message):
+    """DevicesStatusSpec is the spec for devices status."""
+
+    ready: bool = betterproto.bool_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class EventSinkConfigSpec(betterproto.Message):
+    """
+    EventSinkConfigSpec describes configuration of Talos event log streaming.
+    """
+
+    endpoint: str = betterproto.string_field(1)
 
 
 @dataclass(eq=False, repr=False)
@@ -35,6 +52,13 @@ class KernelParamStatusSpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class KmsgLogConfigSpec(betterproto.Message):
+    """KmsgLogConfigSpec describes configuration for kmsg log streaming."""
+
+    destinations: List["____common__.Url"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class MachineStatusSpec(betterproto.Message):
     """MachineStatusSpec describes status of the defined sysctls."""
 
@@ -48,6 +72,17 @@ class MachineStatusStatus(betterproto.Message):
 
     ready: bool = betterproto.bool_field(1)
     unmet_conditions: List["UnmetCondition"] = betterproto.message_field(2)
+
+
+@dataclass(eq=False, repr=False)
+class MaintenanceServiceConfigSpec(betterproto.Message):
+    """
+    MaintenanceServiceConfigSpec describes configuration for maintenance
+    service API.
+    """
+
+    listen_address: str = betterproto.string_field(1)
+    reachable_addresses: List["____common__.NetIp"] = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -65,6 +100,7 @@ class MountStatusSpec(betterproto.Message):
     target: str = betterproto.string_field(2)
     filesystem_type: str = betterproto.string_field(3)
     options: List[str] = betterproto.string_field(4)
+    encrypted: bool = betterproto.bool_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -79,6 +115,15 @@ class PlatformMetadataSpec(betterproto.Message):
     instance_id: str = betterproto.string_field(6)
     provider_id: str = betterproto.string_field(7)
     spot: bool = betterproto.bool_field(8)
+
+
+@dataclass(eq=False, repr=False)
+class SecurityStateSpec(betterproto.Message):
+    """SecurityStateSpec describes the security state resource properties."""
+
+    secure_boot: bool = betterproto.bool_field(1)
+    uki_signing_key_fingerprint: str = betterproto.string_field(2)
+    pcr_signing_key_fingerprint: str = betterproto.string_field(3)
 
 
 @dataclass(eq=False, repr=False)
