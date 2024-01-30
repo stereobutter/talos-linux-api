@@ -70,6 +70,9 @@ class Disk(betterproto.Message):
     subsystem: str = betterproto.string_field(12)
     """Subsystem is the symlink path in the `/sys/block/<dev>/subsystem`."""
 
+    readonly: bool = betterproto.bool_field(13)
+    """Readonly specifies if the disk is read only."""
+
 
 @dataclass(eq=False, repr=False)
 class Disks(betterproto.Message):

@@ -1,7 +1,7 @@
 [project]
-name = "talos-linux-api-v1.5.0"
+name = "talos-linux-api-v1.6.0"
 version = "0.1.0"
-description = "Python bindings for the Talos Linux gRPC API (v1.5.0)"
+description = "Python bindings for the Talos Linux gRPC API (v1.6.0)"
 authors = [
     {name = "Sascha Desch", email = "sascha.desch@hotmail.com"},
 ]

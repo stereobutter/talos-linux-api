@@ -93,6 +93,16 @@ class MetaKeySpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class MetaLoadedSpec(betterproto.Message):
+    """
+    MetaLoadedSpec is the spec for meta loaded. The Done field is always true
+    when resource exists.
+    """
+
+    done: bool = betterproto.bool_field(1)
+
+
+@dataclass(eq=False, repr=False)
 class MountStatusSpec(betterproto.Message):
     """MountStatusSpec describes status of the defined sysctls."""
 
@@ -101,6 +111,7 @@ class MountStatusSpec(betterproto.Message):
     filesystem_type: str = betterproto.string_field(3)
     options: List[str] = betterproto.string_field(4)
     encrypted: bool = betterproto.bool_field(5)
+    encryption_providers: List[str] = betterproto.string_field(6)
 
 
 @dataclass(eq=False, repr=False)
@@ -124,6 +135,16 @@ class SecurityStateSpec(betterproto.Message):
     secure_boot: bool = betterproto.bool_field(1)
     uki_signing_key_fingerprint: str = betterproto.string_field(2)
     pcr_signing_key_fingerprint: str = betterproto.string_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class UniqueMachineTokenSpec(betterproto.Message):
+    """
+    UniqueMachineTokenSpec is the spec for the machine unique token. Token can
+    be empty if machine wasn't assigned any.
+    """
+
+    token: str = betterproto.string_field(1)
 
 
 @dataclass(eq=False, repr=False)

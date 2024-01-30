@@ -200,6 +200,112 @@ class LinkStatusSpec(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
+class NfTablesAddressMatch(betterproto.Message):
+    """NfTablesAddressMatch describes the match on the IP address."""
+
+    include_subnets: List["____common__.NetIpPrefix"] = betterproto.message_field(1)
+    exclude_subnets: List["____common__.NetIpPrefix"] = betterproto.message_field(2)
+    invert: bool = betterproto.bool_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesChainSpec(betterproto.Message):
+    """NfTablesChainSpec describes status of rendered secrets."""
+
+    type: str = betterproto.string_field(1)
+    hook: "_enums__.NethelpersNfTablesChainHook" = betterproto.enum_field(2)
+    priority: "_enums__.NethelpersNfTablesChainPriority" = betterproto.enum_field(3)
+    rules: List["NfTablesRule"] = betterproto.message_field(4)
+    policy: "_enums__.NethelpersNfTablesVerdict" = betterproto.enum_field(5)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesClampMss(betterproto.Message):
+    """
+    NfTablesClampMSS describes the TCP MSS clamping operation. MSS is limited
+    by the `MaxMTU` so that: - IPv4: MSS = MaxMTU - 40 - IPv6: MSS = MaxMTU -
+    60.
+    """
+
+    mtu: int = betterproto.fixed32_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesConntrackStateMatch(betterproto.Message):
+    """
+    NfTablesConntrackStateMatch describes the match on the connection tracking
+    state.
+    """
+
+    states: List["_enums__.NethelpersConntrackState"] = betterproto.enum_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesIfNameMatch(betterproto.Message):
+    """NfTablesIfNameMatch describes the match on the interface name."""
+
+    operator: "_enums__.NethelpersMatchOperator" = betterproto.enum_field(2)
+    interface_names: List[str] = betterproto.string_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesLayer4Match(betterproto.Message):
+    """
+    NfTablesLayer4Match describes the match on the transport layer protocol.
+    """
+
+    protocol: "_enums__.NethelpersProtocol" = betterproto.enum_field(1)
+    match_source_port: "NfTablesPortMatch" = betterproto.message_field(2)
+    match_destination_port: "NfTablesPortMatch" = betterproto.message_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesLimitMatch(betterproto.Message):
+    """NfTablesLimitMatch describes the match on the packet rate."""
+
+    packet_rate_per_second: int = betterproto.uint64_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesMark(betterproto.Message):
+    """
+    NfTablesMark encodes packet mark match/update operation. When used as a
+    match computes the following condition: (mark & mask) ^ xor == value When
+    used as an update computes the following operation: mark = (mark & mask) ^
+    xor.
+    """
+
+    mask: int = betterproto.uint32_field(1)
+    xor: int = betterproto.uint32_field(2)
+    value: int = betterproto.uint32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesPortMatch(betterproto.Message):
+    """NfTablesPortMatch describes the match on the transport layer port."""
+
+    ranges: List["PortRange"] = betterproto.message_field(1)
+
+
+@dataclass(eq=False, repr=False)
+class NfTablesRule(betterproto.Message):
+    """NfTablesRule describes a single rule in the nftables chain."""
+
+    match_o_if_name: "NfTablesIfNameMatch" = betterproto.message_field(1)
+    verdict: "_enums__.NethelpersNfTablesVerdict" = betterproto.enum_field(2)
+    match_mark: "NfTablesMark" = betterproto.message_field(3)
+    set_mark: "NfTablesMark" = betterproto.message_field(4)
+    match_source_address: "NfTablesAddressMatch" = betterproto.message_field(5)
+    match_destination_address: "NfTablesAddressMatch" = betterproto.message_field(6)
+    match_layer4: "NfTablesLayer4Match" = betterproto.message_field(7)
+    match_i_if_name: "NfTablesIfNameMatch" = betterproto.message_field(8)
+    clamp_mss: "NfTablesClampMss" = betterproto.message_field(9)
+    match_limit: "NfTablesLimitMatch" = betterproto.message_field(10)
+    match_conntrack_state: "NfTablesConntrackStateMatch" = betterproto.message_field(11)
+    anon_counter: bool = betterproto.bool_field(12)
+
+
+@dataclass(eq=False, repr=False)
 class NodeAddressFilterSpec(betterproto.Message):
     """NodeAddressFilterSpec describes a filter for NodeAddresses."""
 
@@ -225,6 +331,14 @@ class OperatorSpecSpec(betterproto.Message):
     dhcp6: "Dhcp6OperatorSpec" = betterproto.message_field(5)
     vip: "VipOperatorSpec" = betterproto.message_field(6)
     config_layer: "_enums__.NetworkConfigLayer" = betterproto.enum_field(7)
+
+
+@dataclass(eq=False, repr=False)
+class PortRange(betterproto.Message):
+    """PortRange describes a range of ports. Range is [lo, hi]."""
+
+    lo: int = betterproto.fixed32_field(1)
+    hi: int = betterproto.fixed32_field(2)
 
 
 @dataclass(eq=False, repr=False)
