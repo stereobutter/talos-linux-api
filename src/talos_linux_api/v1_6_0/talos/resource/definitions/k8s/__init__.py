@@ -86,6 +86,7 @@ class BootstrapManifestsConfigSpec(betterproto.Message):
     flannel_cni_image: str = betterproto.string_field(13)
     pod_security_policy_enabled: bool = betterproto.bool_field(14)
     talos_api_service_enabled: bool = betterproto.bool_field(15)
+    flannel_extra_args: List[str] = betterproto.string_field(16)
 
 
 @dataclass(eq=False, repr=False)
@@ -208,6 +209,9 @@ class KubeletConfigSpec(betterproto.Message):
     static_pod_list_url: str = betterproto.string_field(10)
     disable_manifests_directory: bool = betterproto.bool_field(11)
     enable_fs_quota_monitoring: bool = betterproto.bool_field(12)
+    credential_provider_config: "betterproto_lib_google_protobuf.Struct" = (
+        betterproto.message_field(13)
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -219,6 +223,9 @@ class KubeletSpecSpec(betterproto.Message):
     extra_mounts: List["_proto__.Mount"] = betterproto.message_field(3)
     expected_nodename: str = betterproto.string_field(4)
     config: "betterproto_lib_google_protobuf.Struct" = betterproto.message_field(5)
+    credential_provider_config: "betterproto_lib_google_protobuf.Struct" = (
+        betterproto.message_field(6)
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -321,6 +328,7 @@ class SchedulerConfigSpec(betterproto.Message):
         5, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
     resources: "Resources" = betterproto.message_field(6)
+    config: "betterproto_lib_google_protobuf.Struct" = betterproto.message_field(7)
 
 
 @dataclass(eq=False, repr=False)

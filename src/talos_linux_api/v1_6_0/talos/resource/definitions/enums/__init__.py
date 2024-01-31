@@ -101,6 +101,16 @@ class NethelpersBondXmitHashPolicy(betterproto.Enum):
     BOND_XMIT_POLICY_ENCAP34 = 4
 
 
+class NethelpersConntrackState(betterproto.Enum):
+    """NethelpersConntrackState is a conntrack state."""
+
+    NETHELPERS_CONNTRACKSTATE_UNSPECIFIED = 0
+    CONNTRACK_STATE_NEW = 8
+    CONNTRACK_STATE_RELATED = 4
+    CONNTRACK_STATE_ESTABLISHED = 2
+    CONNTRACK_STATE_INVALID = 1
+
+
 class NethelpersDuplex(betterproto.Enum):
     """NethelpersDuplex wraps ethtool.Duplex for YAML marshaling."""
 
@@ -214,6 +224,56 @@ class NethelpersLinkType(betterproto.Enum):
     LINK_NONE = 65534
 
 
+class NethelpersMatchOperator(betterproto.Enum):
+    """NethelpersMatchOperator is a netfilter match operator."""
+
+    OPERATOR_EQUAL = 0
+    OPERATOR_NOT_EQUAL = 1
+
+
+class NethelpersNfTablesChainHook(betterproto.Enum):
+    """
+    NethelpersNfTablesChainHook wraps nftables.ChainHook for YAML marshaling.
+    """
+
+    CHAIN_HOOK_PREROUTING = 0
+    CHAIN_HOOK_INPUT = 1
+    CHAIN_HOOK_FORWARD = 2
+    CHAIN_HOOK_OUTPUT = 3
+    CHAIN_HOOK_POSTROUTING = 4
+
+
+class NethelpersNfTablesChainPriority(betterproto.Enum):
+    """
+    NethelpersNfTablesChainPriority wraps nftables.ChainPriority for YAML
+    marshaling.
+    """
+
+    NETHELPERS_NFTABLESCHAINPRIORITY_UNSPECIFIED = 0
+    CHAIN_PRIORITY_FIRST = -2147483648
+    CHAIN_PRIORITY_CONNTRACK_DEFRAG = -400
+    CHAIN_PRIORITY_RAW = -300
+    CHAIN_PRIORITY_SE_LINUX_FIRST = -225
+    CHAIN_PRIORITY_CONNTRACK = -200
+    CHAIN_PRIORITY_MANGLE = -150
+    CHAIN_PRIORITY_NAT_DEST = -100
+    CHAIN_PRIORITY_FILTER = 0
+    CHAIN_PRIORITY_SECURITY = 50
+    CHAIN_PRIORITY_NAT_SOURCE = 100
+    CHAIN_PRIORITY_SE_LINUX_LAST = 225
+    CHAIN_PRIORITY_CONNTRACK_HELPER = 300
+    CHAIN_PRIORITY_LAST = 2147483647
+
+
+class NethelpersNfTablesVerdict(betterproto.Enum):
+    """
+    NethelpersNfTablesVerdict wraps nftables.Verdict for YAML marshaling.
+    """
+
+    VERDICT_DROP = 0
+    VERDICT_ACCEPT = 1
+
+
 class NethelpersOperationalState(betterproto.Enum):
     """
     NethelpersOperationalState wraps rtnetlink.OperationalState for YAML
@@ -248,6 +308,16 @@ class NethelpersPrimaryReselect(betterproto.Enum):
     PRIMARY_RESELECT_ALWAYS = 0
     PRIMARY_RESELECT_BETTER = 1
     PRIMARY_RESELECT_FAILURE = 2
+
+
+class NethelpersProtocol(betterproto.Enum):
+    """NethelpersProtocol is a inet protocol."""
+
+    NETHELPERS_PROTOCOL_UNSPECIFIED = 0
+    PROTOCOL_ICMP = 1
+    PROTOCOL_TCP = 6
+    PROTOCOL_UDP = 17
+    PROTOCOL_ICM_PV6 = 58
 
 
 class NethelpersRouteFlag(betterproto.Enum):

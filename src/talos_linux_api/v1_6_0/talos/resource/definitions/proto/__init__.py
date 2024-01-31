@@ -8,6 +8,15 @@ import betterproto
 
 
 @dataclass(eq=False, repr=False)
+class LinuxIdMapping(betterproto.Message):
+    """LinuxIDMapping specifies UID/GID mappings."""
+
+    container_id: int = betterproto.uint32_field(1)
+    host_id: int = betterproto.uint32_field(2)
+    size: int = betterproto.uint32_field(3)
+
+
+@dataclass(eq=False, repr=False)
 class Mount(betterproto.Message):
     """Mount specifies a mount for a container."""
 
@@ -15,3 +24,5 @@ class Mount(betterproto.Message):
     type: str = betterproto.string_field(2)
     source: str = betterproto.string_field(3)
     options: List[str] = betterproto.string_field(4)
+    uid_mappings: List["LinuxIdMapping"] = betterproto.message_field(5)
+    gid_mappings: List["LinuxIdMapping"] = betterproto.message_field(6)

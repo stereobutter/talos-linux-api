@@ -57,6 +57,7 @@ message BootstrapManifestsConfigSpec {
   string flannel_cni_image = 13;
   bool pod_security_policy_enabled = 14;
   bool talos_api_service_enabled = 15;
+  repeated string flannel_extra_args = 16;
 }
 
 // ConfigStatusSpec describes status of rendered secrets.
@@ -143,6 +144,7 @@ message KubeletConfigSpec {
   string static_pod_list_url = 10;
   bool disable_manifests_directory = 11;
   bool enable_fs_quota_monitoring = 12;
+  google.protobuf.Struct credential_provider_config = 13;
 }
 
 // KubeletSpecSpec holds the source of kubelet configuration.
@@ -152,6 +154,7 @@ message KubeletSpecSpec {
   repeated talos.resource.definitions.proto.Mount extra_mounts = 3;
   string expected_nodename = 4;
   google.protobuf.Struct config = 5;
+  google.protobuf.Struct credential_provider_config = 6;
 }
 
 // ManifestSpec holds the Kubernetes resources spec.
@@ -218,6 +221,7 @@ message SchedulerConfigSpec {
   repeated ExtraVolume extra_volumes = 4;
   map<string, string> environment_variables = 5;
   Resources resources = 6;
+  google.protobuf.Struct config = 7;
 }
 
 // SecretsStatusSpec describes status of rendered secrets.

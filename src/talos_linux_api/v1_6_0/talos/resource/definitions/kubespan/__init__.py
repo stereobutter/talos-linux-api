@@ -22,6 +22,7 @@ class ConfigSpec(betterproto.Message):
     advertise_kubernetes_networks: bool = betterproto.bool_field(5)
     mtu: int = betterproto.uint32_field(6)
     endpoint_filters: List[str] = betterproto.string_field(7)
+    harvest_extra_endpoints: bool = betterproto.bool_field(8)
 
 
 @dataclass(eq=False, repr=False)
